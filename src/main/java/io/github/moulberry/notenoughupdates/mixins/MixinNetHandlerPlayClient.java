@@ -27,6 +27,7 @@ import io.github.moulberry.notenoughupdates.miscfeatures.ItemCooldowns;
 import io.github.moulberry.notenoughupdates.miscfeatures.MiningStuff;
 import io.github.moulberry.notenoughupdates.miscfeatures.NewApiKeyHelper;
 import io.github.moulberry.notenoughupdates.miscfeatures.StorageManager;
+import io.github.moulberry.notenoughupdates.skyhanni.events.PacketEvent;
 import io.github.moulberry.notenoughupdates.util.SBInfo;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -124,6 +125,7 @@ public class MixinNetHandlerPlayClient {
 
 	@Inject(method = "addToSendQueue", at = @At("HEAD"), cancellable = true)
 	public void addToSendQueue(Packet packet, CallbackInfo ci) {
+		if (new PacketEvent.SendEvent(packet).post()) ci.cancel();
 		if (packet instanceof C0EPacketClickWindow) {
 			StorageManager.getInstance().clientSendWindowClick((C0EPacketClickWindow) packet);
 		}

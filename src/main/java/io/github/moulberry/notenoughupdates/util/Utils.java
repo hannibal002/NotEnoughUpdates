@@ -84,6 +84,7 @@ import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -1961,13 +1962,13 @@ public class Utils {
 		if (NotEnoughUpdates.INSTANCE.config.notifications.outdatedRepo) {
 			NotificationHandler.displayNotification(Lists.newArrayList(
 					EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() + "Missing repo data",
-				EnumChatFormatting.RED +
-					"Data used for many NEU features is not up to date, this should normally not be the case.",
-				EnumChatFormatting.RED + "You can try " + EnumChatFormatting.BOLD + "/neuresetrepo" + EnumChatFormatting.RESET +
-					EnumChatFormatting.RED + " and restart your game" +
-					" to see if that fixes the issue.",
-				EnumChatFormatting.RED + "If the problem persists please join " + EnumChatFormatting.BOLD +
-					"discord.gg/moulberry" +
+					EnumChatFormatting.RED +
+						"Data used for many NEU features is not up to date, this should normally not be the case.",
+					EnumChatFormatting.RED + "You can try " + EnumChatFormatting.BOLD + "/neuresetrepo" + EnumChatFormatting.RESET +
+						EnumChatFormatting.RED + " and restart your game" +
+						" to see if that fixes the issue.",
+					EnumChatFormatting.RED + "If the problem persists please join " + EnumChatFormatting.BOLD +
+						"discord.gg/moulberry" +
 						EnumChatFormatting.RESET + EnumChatFormatting.RED + " and message in " + EnumChatFormatting.BOLD +
 						"#neu-support" + EnumChatFormatting.RESET + EnumChatFormatting.RED + " to get support"
 				),
@@ -2057,4 +2058,19 @@ public class Utils {
 			}
 		}
 	}
+
+	public static String getCallerClass(String... skip) {
+		StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+		for (int i = 1; i < stElements.length; i++) {
+			StackTraceElement ste = stElements[i];
+			String className = ste.getClassName();
+			if (!className.equals(Utils.class.getName()) && className.indexOf("java.lang.Thread") != 0) {
+				if (!Arrays.asList(skip).contains(className)) {
+					return className;
+				}
+			}
+		}
+		return null;
+	}
+
 }

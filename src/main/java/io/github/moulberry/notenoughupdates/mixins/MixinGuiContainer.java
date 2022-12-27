@@ -34,6 +34,7 @@ import io.github.moulberry.notenoughupdates.miscfeatures.SlotLocking;
 import io.github.moulberry.notenoughupdates.miscgui.GuiCustomEnchant;
 import io.github.moulberry.notenoughupdates.miscgui.StorageOverlay;
 import io.github.moulberry.notenoughupdates.miscgui.hex.GuiCustomHex;
+import io.github.moulberry.notenoughupdates.skyhanni.LorenzGuiContainerHook;
 import io.github.moulberry.notenoughupdates.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -53,6 +54,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -64,6 +66,10 @@ import java.util.Set;
 
 @Mixin(GuiContainer.class)
 public abstract class MixinGuiContainer extends GuiScreen {
+
+	@Unique
+	private final LorenzGuiContainerHook hook = new LorenzGuiContainerHook(this);
+
 	private static boolean hasProfileViewerStack = false;
 	private static final ItemStack profileViewerStack = Utils.createItemStack(
 		Item.getItemFromBlock(Blocks.command_block),
@@ -71,14 +77,16 @@ public abstract class MixinGuiContainer extends GuiScreen {
 		EnumChatFormatting.YELLOW + "Click to open NEU profile viewer!"
 	);
 
-	@Inject(method = "drawSlot", at = @At("RETURN"))
-	public void drawSlotRet(Slot slotIn, CallbackInfo ci) {
-		SlotLocking.getInstance().drawSlot(slotIn);
-		DungeonNpcProfitOverlay.onDrawSlot(slotIn);
+	@Inject(method = "drawSlot", at = @At("RETURN"), cancellable = true)
+	public void drawSlotRet(Slot slot, CallbackInfo ci) {
+		SlotLocking.getInstance().drawSlot(slot);
+		DungeonNpcProfitOverlay.onDrawSlot(slot);
+		hook.onDrawSlotPost(slot, ci);
 	}
 
 	@Inject(method = "drawSlot", at = @At("HEAD"), cancellable = true)
 	public void drawSlot(Slot slot, CallbackInfo ci) {
+		hook.onDrawSlot(slot, ci);
 		if (slot == null) return;
 
 		GuiContainer $this = (GuiContainer) (Object) this;
@@ -187,6 +195,7 @@ public abstract class MixinGuiContainer extends GuiScreen {
 	)
 	public void drawScreen_after(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
 		AuctionSortModeWarning.getInstance().onPostGuiRender();
+		hook.onDrawScreenAfter(mouseX, mouseY, ci);
 	}
 
 	@Redirect(method = "mouseReleased", at = @At(value = "INVOKE", target = "Ljava/util/Set;isEmpty()Z"))
@@ -330,5 +339,16 @@ public abstract class MixinGuiContainer extends GuiScreen {
 	@Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlStateManager;color(FFFF)V", ordinal = 1))
 	private void drawBackground(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
 		AbiphoneFavourites.getInstance().onDrawBackground(this);
+		hook.backgroundDrawn(mouseX, mouseY, partialTicks, ci);
+	}
+
+	@Inject(method = "keyTyped", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;closeScreen()V", shift = At.Shift.BEFORE), cancellable = true)
+	private void closeWindowPressed(CallbackInfo ci) {
+		hook.closeWindowPressed(ci);
+	}
+
+	@Inject(method = "handleMouseClick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/PlayerControllerMP;windowClick(IIIILnet/minecraft/entity/player/EntityPlayer;)Lnet/minecraft/item/ItemStack;"), cancellable = true)
+	private void onMouseClick(Slot slot, int slotId, int clickedButton, int clickType, CallbackInfo ci) {
+		hook.onMouseClick(slot, slotId, clickedButton, clickType, ci);
 	}
 }
