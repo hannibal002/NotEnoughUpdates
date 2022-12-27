@@ -42,6 +42,7 @@
     "MixinRenderGlobal",
     "MixinRenderItem",
     "MixinRenderList",
+    "MixinRenderManager",
     "MixinTextureManager",
     "MixinTileEntitySkullRenderer",
     "MixinTileEntitySpecialRenderer",
