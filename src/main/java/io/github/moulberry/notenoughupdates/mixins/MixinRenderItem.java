@@ -22,6 +22,7 @@ package io.github.moulberry.notenoughupdates.mixins;
 import io.github.moulberry.notenoughupdates.NEUOverlay;
 import io.github.moulberry.notenoughupdates.NotEnoughUpdates;
 import io.github.moulberry.notenoughupdates.core.ChromaColour;
+import io.github.moulberry.notenoughupdates.events.GuiRenderItemOverlayEvent;
 import io.github.moulberry.notenoughupdates.listener.RenderListener;
 import io.github.moulberry.notenoughupdates.miscfeatures.ItemCooldowns;
 import io.github.moulberry.notenoughupdates.miscfeatures.ItemCustomizeManager;
@@ -252,6 +253,7 @@ public abstract class MixinRenderItem {
 		String text,
 		CallbackInfo ci
 	) {
+		new GuiRenderItemOverlayEvent(fr, stack, xPosition, yPosition, text).post();
 		if (stack != null && stack.stackSize != 1) {
 			if (NotEnoughUpdates.INSTANCE.overlay.searchMode && RenderListener.drawingGuiScreen && NotEnoughUpdates.INSTANCE.isOnSkyblock() && !(Minecraft.getMinecraft().currentScreen instanceof GuiProfileViewer)) {
 				boolean matches = false;
