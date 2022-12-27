@@ -19,6 +19,7 @@
 
 package io.github.moulberry.notenoughupdates.mixins;
 
+import io.github.moulberry.notenoughupdates.events.PacketEvent;
 import io.github.moulberry.notenoughupdates.events.SpawnParticleEvent;
 import io.github.moulberry.notenoughupdates.miscfeatures.AntiCoopAdd;
 import io.github.moulberry.notenoughupdates.miscfeatures.CustomItemEffects;
@@ -27,7 +28,6 @@ import io.github.moulberry.notenoughupdates.miscfeatures.ItemCooldowns;
 import io.github.moulberry.notenoughupdates.miscfeatures.MiningStuff;
 import io.github.moulberry.notenoughupdates.miscfeatures.NewApiKeyHelper;
 import io.github.moulberry.notenoughupdates.miscfeatures.StorageManager;
-import io.github.moulberry.notenoughupdates.skyhanni.events.PacketEvent;
 import io.github.moulberry.notenoughupdates.util.SBInfo;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;

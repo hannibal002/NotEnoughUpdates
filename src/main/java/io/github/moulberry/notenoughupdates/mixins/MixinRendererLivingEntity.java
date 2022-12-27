@@ -20,12 +20,15 @@
 package io.github.moulberry.notenoughupdates.mixins;
 
 import io.github.moulberry.notenoughupdates.NotEnoughUpdates;
+import io.github.moulberry.notenoughupdates.events.RenderMobColoredEvent;
+import io.github.moulberry.notenoughupdates.events.ResetEntityHurtEvent;
 import io.github.moulberry.notenoughupdates.miscfeatures.DamageCommas;
 import io.github.moulberry.notenoughupdates.overlays.BonemerangOverlay;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.IChatComponent;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -46,12 +49,23 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> {
 
 	@Inject(method = "getColorMultiplier", at = @At("HEAD"), cancellable = true)
 	public void getColorMultiplier(
-		T entitylivingbaseIn, float lightBrightness,
+		T entity, float lightBrightness,
 		float partialTickTime, CallbackInfoReturnable<Integer> cir
 	) {
-		if (BonemerangOverlay.INSTANCE.bonemeragedEntities.contains(entitylivingbaseIn) &&
+		RenderMobColoredEvent event = new RenderMobColoredEvent(entity, 0);
+		event.post();
+		cir.setReturnValue(event.getColor());
+
+		if (BonemerangOverlay.INSTANCE.bonemeragedEntities.contains(entity) &&
 			NotEnoughUpdates.INSTANCE.config.itemOverlays.highlightTargeted) {
 			cir.setReturnValue(0x80ff9500);
 		}
+	}
+
+	@Redirect(method = "setBrightness", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;hurtTime:I", opcode = Opcodes.GETFIELD))
+	private int changeHurtTime(EntityLivingBase entity) {
+		ResetEntityHurtEvent event = new ResetEntityHurtEvent(entity, false);
+		event.post();
+		return event.getShouldReset() ? 0 : entity.hurtTime;
 	}
 }

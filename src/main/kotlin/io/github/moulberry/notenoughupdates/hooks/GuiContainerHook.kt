@@ -17,15 +17,15 @@
  * along with NotEnoughUpdates. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.moulberry.notenoughupdates.skyhanni
+package io.github.moulberry.notenoughupdates.hooks
 
-import io.github.moulberry.notenoughupdates.skyhanni.events.DrawScreenAfterEvent
-import io.github.moulberry.notenoughupdates.skyhanni.events.GuiContainerEvent
+import io.github.moulberry.notenoughupdates.events.DrawScreenAfterEvent
+import io.github.moulberry.notenoughupdates.events.GuiContainerEvent
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.inventory.Slot
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
-class LorenzGuiContainerHook(guiAny: Any) {
+class GuiContainerHook(guiAny: Any) {
 
     val gui: GuiContainer
 

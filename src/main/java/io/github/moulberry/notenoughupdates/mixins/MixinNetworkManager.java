@@ -19,7 +19,7 @@
 
 package io.github.moulberry.notenoughupdates.mixins;
 
-import io.github.moulberry.notenoughupdates.skyhanni.events.PacketEvent;
+import io.github.moulberry.notenoughupdates.events.PacketEvent;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.minecraft.network.NetworkManager;

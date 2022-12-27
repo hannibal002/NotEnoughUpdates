@@ -17,9 +17,8 @@
  * along with NotEnoughUpdates. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.moulberry.notenoughupdates.skyhanni.events
+package io.github.moulberry.notenoughupdates.events
 
-import io.github.moulberry.notenoughupdates.events.NEUEvent
 import net.minecraft.client.gui.inventory.GuiContainer
 import net.minecraft.inventory.Container
 import net.minecraft.inventory.ContainerChest

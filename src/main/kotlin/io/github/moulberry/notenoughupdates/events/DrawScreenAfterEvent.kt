@@ -17,29 +17,8 @@
  * along with NotEnoughUpdates. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.github.moulberry.notenoughupdates.skyhanni.events
+package io.github.moulberry.notenoughupdates.events
 
-import io.github.moulberry.notenoughupdates.events.NEUEvent
-import net.minecraft.network.Packet
-import net.minecraftforge.fml.common.eventhandler.Cancelable
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
-@Cancelable
-open class PacketEvent(val packet: Packet<*>) : NEUEvent() {
-    var direction: Direction? = null
-
-    class ReceiveEvent(packet: Packet<*>) : PacketEvent(packet) {
-        init {
-            direction = Direction.INBOUND
-        }
-    }
-
-    class SendEvent(packet: Packet<*>) : PacketEvent(packet) {
-        init {
-            direction = Direction.OUTBOUND
-        }
-    }
-
-    enum class Direction {
-        INBOUND, OUTBOUND
-    }
-}
+class DrawScreenAfterEvent(val mouseX: Int, val mouseY: Int, val ci: CallbackInfo) : NEUEvent()

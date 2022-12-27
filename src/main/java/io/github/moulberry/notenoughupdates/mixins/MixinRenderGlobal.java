@@ -141,7 +141,6 @@ public class MixinRenderGlobal {
 		if (callerClass == null) {
 			callerClass = "null";
 		}
-		System.out.println("callerClass: " + callerClass);
 		if (new RenderParticleEvent(particleId, callerClass, x, y, z).post()) {
 			ci.cancel();
 		}

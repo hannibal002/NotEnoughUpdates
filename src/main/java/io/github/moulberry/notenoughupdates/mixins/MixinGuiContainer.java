@@ -22,6 +22,7 @@ package io.github.moulberry.notenoughupdates.mixins;
 import io.github.moulberry.notenoughupdates.NEUOverlay;
 import io.github.moulberry.notenoughupdates.NotEnoughUpdates;
 import io.github.moulberry.notenoughupdates.events.SlotClickEvent;
+import io.github.moulberry.notenoughupdates.hooks.GuiContainerHook;
 import io.github.moulberry.notenoughupdates.listener.RenderListener;
 import io.github.moulberry.notenoughupdates.miscfeatures.AbiphoneFavourites;
 import io.github.moulberry.notenoughupdates.miscfeatures.AbiphoneWarning;
@@ -34,7 +35,6 @@ import io.github.moulberry.notenoughupdates.miscfeatures.SlotLocking;
 import io.github.moulberry.notenoughupdates.miscgui.GuiCustomEnchant;
 import io.github.moulberry.notenoughupdates.miscgui.StorageOverlay;
 import io.github.moulberry.notenoughupdates.miscgui.hex.GuiCustomHex;
-import io.github.moulberry.notenoughupdates.skyhanni.LorenzGuiContainerHook;
 import io.github.moulberry.notenoughupdates.util.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -68,7 +68,7 @@ import java.util.Set;
 public abstract class MixinGuiContainer extends GuiScreen {
 
 	@Unique
-	private final LorenzGuiContainerHook hook = new LorenzGuiContainerHook(this);
+	private final GuiContainerHook hook = new GuiContainerHook(this);
 
 	private static boolean hasProfileViewerStack = false;
 	private static final ItemStack profileViewerStack = Utils.createItemStack(
