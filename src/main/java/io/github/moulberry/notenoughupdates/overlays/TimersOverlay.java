@@ -904,6 +904,18 @@ public class TimersOverlay extends TextTabOverlay {
 		if (overlayStrings.isEmpty()) overlayStrings = null;
 	}
 
+	private boolean hideBecauseOfBingo(String text) {
+		if (!SBInfo.getInstance().bingo) return false;
+		if (!NotEnoughUpdates.INSTANCE.config.miscOverlays.todoOverlayHideAtBingo) return false;
+
+		if (text.contains("Cookie Buff")) return true;
+		if (text.contains("Godpot")) return true;
+		if (text.contains("Heavy Pearls")) return true;
+		if (text.contains("Crimson Isle Quests")) return true;
+
+		return false;
+	}
+
 	public static int beforePearls = -1;
 	public static int afterPearls = -1;
 	public static int availablePearls = -1;
