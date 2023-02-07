@@ -431,8 +431,6 @@ public class NEUConfig extends Config {
 		@Expose
 		public boolean dev = false;
 		@Expose
-		public boolean logApiCalls = false;
-		@Expose
 		public boolean loadedModBefore = false;
 		@Expose
 		public String selectedCape = null;

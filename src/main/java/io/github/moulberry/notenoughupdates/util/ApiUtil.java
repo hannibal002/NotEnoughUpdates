@@ -22,7 +22,6 @@ package io.github.moulberry.notenoughupdates.util;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.github.moulberry.notenoughupdates.NotEnoughUpdates;
-import io.github.moulberry.notenoughupdates.api.HypixelAPICache;
 import io.github.moulberry.notenoughupdates.events.ProfileDataLoadedEvent;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.io.IOUtils;
@@ -226,7 +225,7 @@ public class ApiUtil {
 						// While the assumption of UTF8 isn't always true; it *should* always be true.
 						// Not in the sense that this will hold in most cases (although that as well),
 						// but in the sense that any violation of this better have a good reason.
-						result.complete(IOUtils.toString(inputStream, StandardCharsets.UTF_8));
+						return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 					} catch (Throwable t) {
 						throw new RuntimeException(t);
 					} finally {
@@ -234,8 +233,6 @@ public class ApiUtil {
 							if (inputStream != null) {
 								inputStream.close();
 							}
-						} catch (Throwable t) {
-							result.completeExceptionally(t);
 						} finally {
 							if (conn instanceof HttpURLConnection) {
 								((HttpURLConnection) conn).disconnect();
@@ -243,11 +240,9 @@ public class ApiUtil {
 						}
 					}
 				} catch (IOException e) {
-					result.completeExceptionally(e);
+					throw new RuntimeException(e); // We can rethrow, since supplyAsync catches exceptions.
 				}
-			});
-
-			return result;
+			}, executorService);
 		}
 
 		public CompletableFuture<String> requestString() {
