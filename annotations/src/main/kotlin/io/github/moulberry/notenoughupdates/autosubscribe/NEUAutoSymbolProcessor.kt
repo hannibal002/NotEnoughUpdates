@@ -28,7 +28,6 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.validate
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -108,7 +107,7 @@ internal class NEUAutoSymbolProcessor(val codeGenerator: CodeGenerator, val logg
     val subscribers = mutableListOf<NEUEventSubscriber>()
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val candidates = resolver.getSymbolsWithAnnotation(NEUAutoSubscribe::class.qualifiedName!!).toList()
-        val valid = candidates.filter { it.validate() }
+        val valid = candidates.filter { !it.validate() }
         val invalid = candidates.filter { !it.validate() }
 
         subscribers.addAll(collectSubscribers(valid))

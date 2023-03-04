@@ -23,40 +23,21 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import io.github.moulberry.notenoughupdates.autosubscribe.AutoLoad;
 import io.github.moulberry.notenoughupdates.autosubscribe.NEUAutoSubscribe;
-import io.github.moulberry.notenoughupdates.core.BackgroundBlur;
-import io.github.moulberry.notenoughupdates.cosmetics.ShaderManager;
-import io.github.moulberry.notenoughupdates.listener.ChatListener;
-import io.github.moulberry.notenoughupdates.listener.ItemTooltipEssenceShopListener;
-import io.github.moulberry.notenoughupdates.listener.ItemTooltipListener;
-import io.github.moulberry.notenoughupdates.listener.ItemTooltipRngListener;
-import io.github.moulberry.notenoughupdates.listener.NEUEventListener;
-import io.github.moulberry.notenoughupdates.listener.RenderListener;
-import io.github.moulberry.notenoughupdates.listener.WorldListener;
-import io.github.moulberry.notenoughupdates.miscfeatures.CustomSkulls;
 import io.github.moulberry.notenoughupdates.miscfeatures.FairySouls;
 import io.github.moulberry.notenoughupdates.miscfeatures.ItemCustomizeManager;
-import io.github.moulberry.notenoughupdates.miscfeatures.NPCRetexturing;
 import io.github.moulberry.notenoughupdates.miscfeatures.Navigation;
 import io.github.moulberry.notenoughupdates.miscfeatures.PetInfoOverlay;
 import io.github.moulberry.notenoughupdates.miscfeatures.SlotLocking;
 import io.github.moulberry.notenoughupdates.miscfeatures.StorageManager;
-import io.github.moulberry.notenoughupdates.miscfeatures.customblockzones.CustomBlockSounds;
 import io.github.moulberry.notenoughupdates.miscfeatures.updater.AutoUpdater;
-import io.github.moulberry.notenoughupdates.mixins.AccessorMinecraft;
-import io.github.moulberry.notenoughupdates.oneconfig.IOneConfigCompat;
 import io.github.moulberry.notenoughupdates.options.NEUConfig;
 import io.github.moulberry.notenoughupdates.overlays.OverlayManager;
 import io.github.moulberry.notenoughupdates.profileviewer.ProfileViewer;
-import io.github.moulberry.notenoughupdates.recipes.RecipeGenerator;
 import io.github.moulberry.notenoughupdates.util.Utils;
-import io.github.moulberry.notenoughupdates.util.brigadier.BrigadierRoot;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
@@ -68,9 +49,6 @@ import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenMesa;
 import net.minecraft.world.biome.BiomeGenSnow;
 import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -182,9 +160,9 @@ public class NotEnoughUpdates {
 
 	public NotEnoughUpdates() {
 		// Budget Construction Event
-		((AccessorMinecraft) FMLClientHandler.instance().getClient())
-			.onGetDefaultResourcePacks()
-			.add(new NEURepoResourcePack(null, "neurepo"));
+//		((AccessorMinecraft) FMLClientHandler.instance().getClient())
+//			.onGetDefaultResourcePacks()
+//			.add(new NEURepoResourcePack(null, "neurepo"));
 	}
 
 	/**
@@ -212,11 +190,11 @@ public class NotEnoughUpdates {
 			}
 		}
 
-		ItemCustomizeManager.loadCustomization(new File(neuDir, "itemCustomization.json"));
-		StorageManager.getInstance().loadConfig(new File(neuDir, "storageItems.json"));
-		FairySouls.getInstance().loadFoundSoulsForAllProfiles(new File(neuDir, "collected_fairy_souls.json"), gson);
-		PetInfoOverlay.loadConfig(new File(neuDir, "petCache.json"));
-		SlotLocking.getInstance().loadConfig(new File(neuDir, "slotLocking.json"));
+//		ItemCustomizeManager.loadCustomization(new File(neuDir, "itemCustomization.json"));
+//		StorageManager.getInstance().loadConfig(new File(neuDir, "storageItems.json"));
+//		FairySouls.getInstance().loadFoundSoulsForAllProfiles(new File(neuDir, "collected_fairy_souls.json"), gson);
+//		PetInfoOverlay.loadConfig(new File(neuDir, "petCache.json"));
+//		SlotLocking.getInstance().loadConfig(new File(neuDir, "slotLocking.json"));
 		ItemPriceInformation.init(new File(neuDir, "auctionable_items.json"), gson);
 
 		if (config == null) {
@@ -229,15 +207,15 @@ public class NotEnoughUpdates {
 			}
 
 			//add the trophy fishing tab to the config
-			if (config.profileViewer.pageLayout.size() == 8) {
-				config.profileViewer.pageLayout.add(8);
-			}
-			if (config.profileViewer.pageLayout.size() == 9) {
-				config.profileViewer.pageLayout.add(9);
-			}
-			if (config.profileViewer.pageLayout.size() == 10) {
-				config.profileViewer.pageLayout.add(10);
-			}
+//			if (config.profileViewer.pageLayout.size() == 8) {
+//				config.profileViewer.pageLayout.add(8);
+//			}
+//			if (config.profileViewer.pageLayout.size() == 9) {
+//				config.profileViewer.pageLayout.add(9);
+//			}
+//			if (config.profileViewer.pageLayout.size() == 10) {
+//				config.profileViewer.pageLayout.add(10);
+//			}
 
 			// Remove after 2.1 ig
 			if ("dangerous".equals(config.apiData.repoBranch)) {
@@ -252,46 +230,46 @@ public class NotEnoughUpdates {
 			saveConfig();
 		}
 
-		if (config != null)
-			if (config.mining.powderGrindingTrackerResetMode == 2)
-				OverlayManager.powderGrindingOverlay.load();
+//		if (config != null)
+//			if (config.mining.powderGrindingTrackerResetMode == 2)
+//				OverlayManager.powderGrindingOverlay.load();
 
-		IOneConfigCompat.getInstance().ifPresent(it -> it.initConfig(config, this::saveConfig));
+//		IOneConfigCompat.getInstance().ifPresent(it -> it.initConfig(config, this::saveConfig));
 
-		MinecraftForge.EVENT_BUS.register(new NEUEventListener(this));
-		MinecraftForge.EVENT_BUS.register(new RecipeGenerator(this));
-		MinecraftForge.EVENT_BUS.register(OverlayManager.petInfoOverlay);
-		MinecraftForge.EVENT_BUS.register(OverlayManager.timersOverlay);
-		MinecraftForge.EVENT_BUS.register(new ChatListener(this));
-		MinecraftForge.EVENT_BUS.register(new ItemTooltipListener(this));
-		MinecraftForge.EVENT_BUS.register(new ItemTooltipRngListener(this));
-		MinecraftForge.EVENT_BUS.register(new ItemTooltipEssenceShopListener(this));
-		MinecraftForge.EVENT_BUS.register(new RenderListener(this));
-		MinecraftForge.EVENT_BUS.register(navigation);
-		MinecraftForge.EVENT_BUS.register(new WorldListener(this));
-		AutoLoad.INSTANCE.provide(supplier -> MinecraftForge.EVENT_BUS.register(supplier.get()));
+//		MinecraftForge.EVENT_BUS.register(new NEUEventListener(this));
+//		MinecraftForge.EVENT_BUS.register(new RecipeGenerator(this));
+//		MinecraftForge.EVENT_BUS.register(OverlayManager.petInfoOverlay);
+//		MinecraftForge.EVENT_BUS.register(OverlayManager.timersOverlay);
+//		MinecraftForge.EVENT_BUS.register(new ChatListener(this));
+//		MinecraftForge.EVENT_BUS.register(new ItemTooltipListener(this));
+//		MinecraftForge.EVENT_BUS.register(new ItemTooltipRngListener(this));
+//		MinecraftForge.EVENT_BUS.register(new ItemTooltipEssenceShopListener(this));
+//		MinecraftForge.EVENT_BUS.register(new RenderListener(this));
+//		MinecraftForge.EVENT_BUS.register(navigation);
+//		MinecraftForge.EVENT_BUS.register(new WorldListener(this));
+//		AutoLoad.INSTANCE.provide(supplier -> MinecraftForge.EVENT_BUS.register(supplier.get()));
 
-		if (Minecraft.getMinecraft().getResourceManager() instanceof IReloadableResourceManager) {
-			IReloadableResourceManager manager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
-			manager.registerReloadListener(CustomSkulls.getInstance());
-			manager.registerReloadListener(NPCRetexturing.getInstance());
-			manager.registerReloadListener(ShaderManager.getInstance());
-			manager.registerReloadListener(new ItemCustomizeManager.ReloadListener());
-			manager.registerReloadListener(new CustomBlockSounds.ReloaderListener());
-		}
+//		if (Minecraft.getMinecraft().getResourceManager() instanceof IReloadableResourceManager) {
+//			IReloadableResourceManager manager = (IReloadableResourceManager) Minecraft.getMinecraft().getResourceManager();
+//			manager.registerReloadListener(CustomSkulls.getInstance());
+//			manager.registerReloadListener(NPCRetexturing.getInstance());
+//			manager.registerReloadListener(ShaderManager.getInstance());
+//			manager.registerReloadListener(new ItemCustomizeManager.ReloadListener());
+//			manager.registerReloadListener(new CustomBlockSounds.ReloaderListener());
+//		}
 
-		BrigadierRoot.INSTANCE.updateHooks();
+//		BrigadierRoot.INSTANCE.updateHooks();
 
-		BackgroundBlur.registerListener();
+//		BackgroundBlur.registerListener();
 
 		manager = new NEUManager(this, neuDir);
 		manager.loadItemInformation();
-		overlay = new NEUOverlay(manager);
-		profileViewer = new ProfileViewer(manager);
+//		overlay = new NEUOverlay(manager);
+//		profileViewer = new ProfileViewer(manager);
 
-		for (KeyBinding kb : manager.keybinds) {
-			ClientRegistry.registerKeyBinding(kb);
-		}
+//		for (KeyBinding kb : manager.keybinds) {
+//			ClientRegistry.registerKeyBinding(kb);
+//		}
 
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			File tmp = new File(neuDir, "tmp");
